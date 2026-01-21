@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Universal Die</title>
+    <style>
+        /* 1. Reset and Layout: Center everything on the mobile screen */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #222;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+            touch-action: manipulation; /* Prevents double-tap zoom delay */
+        }
+
+        /* 2. The Die Styling */
+        #die {
+            font-size: 150px; /* Large unicode character */
+            line-height: 1;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        /* 3. The Button Styling */
+        button {
+            padding: 15px 40px;
+            font-size: 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            background-color: #2980b9;
+        }
+
+        /* Animation class for rolling */
+        .shake {
+            animation: shake 0.4s ease infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="die">⚀</div>
+
+    <button onclick="rollDie()">ROLL</button>
+
+    <script>
+        // Array of unicode dice characters (Indices 0-5)
+        const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+        const dieElement = document.getElementById('die');
+        let isRolling = false;
+
+        function rollDie() {
+            if (isRolling) return; // Prevent double clicking
+            isRolling = true;
+            
+            // 1. Add shake animation
+            dieElement.classList.add('shake');
+
+            // 2. Wait 400ms, then show result
+            setTimeout(() => {
+                const result = Math.floor(Math.random() * 6); // 0 to 5
+                dieElement.innerText = diceFaces[result];
+                dieElement.classList.remove('shake');
+                isRolling = false;
+            }, 400);
+        }
+    </script>
+</body>
+</html>
